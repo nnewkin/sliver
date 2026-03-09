@@ -5,7 +5,7 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use crossterm::{
     execute,
-    terminal::{disable_raw_mode, enable_raw_mode, Clear, ClearType},
+    terminal::{disable_raw_mode, Clear, ClearType},
 };
 use rust_i18n::t;
 use sliver_shared::{Session, ListenerConfig, PayloadConfig, AppConfig};
@@ -444,7 +444,7 @@ impl Client {
     }
 
     /// 生成载荷
-    async fn generate_payload(&self, config: PayloadConfig) -> Result<()> {
+    async fn generate_payload(&self, _config: PayloadConfig) -> Result<()> {
         tracing::info!("{}", t!("payload.generating"));
         
         // 实际生成逻辑
@@ -541,7 +541,7 @@ async fn main() -> Result<()> {
         Some(Commands::Listener { listener_command }) => {
             match listener_command {
                 ListenerCommands::List => {
-                    let listeners = client.list_listeners().await?;
+                    let _listeners = client.list_listeners().await?;
                     println!("{}", t!("listener.list_header"));
                 }
                 

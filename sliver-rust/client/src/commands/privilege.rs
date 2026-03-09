@@ -39,7 +39,7 @@ pub async fn get_system() -> Result<CommandResult> {
 }
 
 /// 创建令牌
-pub async fn make_token(username: &str, password: &str) -> Result<CommandResult> {
+pub async fn make_token(username: &str, _password: &str) -> Result<CommandResult> {
     println!("{}: {}", t!("privilege.make_token"), username.blue());
     
     // 实际令牌创建逻辑

@@ -219,14 +219,16 @@ impl Server {
         }
     }
 
-    /// 添加会话
+    /// 添加会话（暂未使用）
+    #[allow(dead_code)]
     fn add_session(&self, session: Session) -> Result<()> {
         let mut sessions = self.sessions.lock().unwrap();
         sessions.insert(session.id.clone(), session);
         Ok(())
     }
-
-    /// 移除会话
+    
+    /// 移除会话（暂未使用）
+    #[allow(dead_code)]
     fn remove_session(&self, session_id: &str) -> Result<()> {
         let mut sessions = self.sessions.lock().unwrap();
         if sessions.remove(session_id).is_some() {

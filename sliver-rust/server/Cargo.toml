@@ -24,5 +24,13 @@ thiserror.workspace = true
 
 sliver-shared = { path = "../shared" }
 
+[dev-dependencies]
+rstest.workspace = true
+mockall.workspace = true
+
+[[test]]
+name = "integration"
+path = "../tests/server_integration.rs"
+
 [build-dependencies]
 tonic-build = "0.10"

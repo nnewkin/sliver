@@ -1,7 +1,6 @@
 // Sliver 共享库
 // 包含客户端和服务端共享的数据结构、协议定义等
 
-use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

@@ -17,5 +17,13 @@ anyhow.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
 
+[dev-dependencies]
+rstest.workspace = true
+mockall.workspace = true
+
+[[test]]
+name = "i18n"
+path = "../tests/i18n_test.rs"
+
 [build-dependencies]
 tonic-build = "0.10"
