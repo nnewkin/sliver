@@ -9,7 +9,7 @@ tokio.workspace = true
 tokio-util.workspace = true
 clap.workspace = true
 crossterm.workspace = true
-tracing.workspace = true
+tracing = { workspace = true, features = ["attributes"] }
 tracing-subscriber.workspace = true
 tonic.workspace = true
 prost.workspace = true

@@ -3,10 +3,12 @@
 
 use anyhow::Result;
 use clap::{Parser, Subcommand};
-use rust_i18n::{t, Locale};
+use rust_i18n::t;
 use sliver_shared::{Session, ListenerConfig, AppConfig};
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
+use tokio;
+use std::time::Duration;
 
 // 初始化 i18n
 rust_i18n::i18n!("locales", fallback = "en");
@@ -19,7 +21,7 @@ rust_i18n::i18n!("locales", fallback = "en");
 #[command(about = t!("server.name").to_string(), long_about = t!("server.description").to_string())]
 struct Args {
     /// 监听地址
-    #[arg(short, long, default_value = "0.0.0.0")]
+    #[arg(short = 'H', long, default_value = "0.0.0.0")]
     host: String,
 
     /// 监听端口
@@ -146,7 +148,7 @@ impl Server {
         // 这里应该是启动网络监听的实际逻辑
         // 暂时模拟启动过程
         
-        tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
+        tokio::time::sleep(Duration::from_millis(500)).await;
 
         // 更新状态为运行中
         {
@@ -179,7 +181,7 @@ impl Server {
         // 这里应该是停止网络监听的实际逻辑
         // 暂时模拟停止过程
         
-        tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
+        tokio::time::sleep(Duration::from_millis(500)).await;
 
         // 清理会话
         {
@@ -201,7 +203,7 @@ impl Server {
     /// 重启服务器
     async fn restart(&self) -> Result<()> {
         self.stop().await?;
-        tokio::time::sleep(tokio::time::Duration::from_millis(1000)).await;
+        tokio::time::sleep(Duration::from_millis(1000)).await;
         self.start().await?;
         Ok(())
     }
@@ -286,11 +288,11 @@ async fn main() -> Result<()> {
 
     // 设置语言
     let locale = match args.language.as_str() {
-        "zh-CN" => Locale::zh_CN,
-        "en" => Locale::en,
-        _ => Locale::zh_CN,
+        "zh-CN" => "zh-CN",
+        "en" => "en",
+        _ => "zh-CN",
     };
-    rust_i18n::set_locale(&locale);
+    rust_i18n::set_locale(locale);
 
     // 初始化日志
     let log_level = match args.log_level.as_str() {
@@ -344,6 +346,17 @@ async fn main() -> Result<()> {
             println!("{}: {}", t!("listener.active_listeners"), listeners.len());
         }
         
+        Some(Commands::Generate { payload_type, os, arch }) => {
+            println!("{}: {} {} ({})", 
+                t!("payload.generate"), 
+                payload_type, 
+                os, 
+                arch
+            );
+            // 实际载荷生成逻辑
+            println!("{}", t!("payload.generated"));
+        }
+        
         Some(Commands::Listener { listener_command }) => {
             match listener_command {
                 ListenerCommands::List => {
@@ -361,9 +374,9 @@ async fn main() -> Result<()> {
                 ListenerCommands::Create { listener_type, host, port } => {
                     let listener = ListenerConfig {
                         name: format!("{}_{}_{}", listener_type, host, port),
-                        listener_type,
+                        listener_type: listener_type.clone(),
                         url: format!("{}:{}", host, port),
-                        host,
+                        host: host.clone(),
                         port,
                         protocol: listener_type.clone(),
                         is_active: true,

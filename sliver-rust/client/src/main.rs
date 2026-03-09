@@ -7,9 +7,16 @@ use crossterm::{
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, Clear, ClearType},
 };
-use rust_i18n::{t, Locale};
+use rust_i18n::t;
 use sliver_shared::{Session, ListenerConfig, PayloadConfig, AppConfig};
 use std::io::stdout;
+
+pub mod commands;
+use commands::filesystem;
+use commands::process;
+use commands::network;
+use commands::privilege;
+use commands::interactive;
 
 // 初始化 i18n，设置语言资源路径
 rust_i18n::i18n!("locales", fallback = "en");
@@ -82,6 +89,41 @@ enum Commands {
         /// 子命令
         #[command(subcommand)]
         beacon_command: BeaconCommands,
+    },
+
+    /// 文件操作
+    File {
+        /// 子命令
+        #[command(subcommand)]
+        file_command: FileCommands,
+    },
+
+    /// 进程管理
+    Process {
+        /// 子命令
+        #[command(subcommand)]
+        process_command: ProcessCommands,
+    },
+
+    /// 网络操作
+    Network {
+        /// 子命令
+        #[command(subcommand)]
+        network_command: NetworkCommands,
+    },
+
+    /// 权限管理
+    Privilege {
+        /// 子命令
+        #[command(subcommand)]
+        privilege_command: PrivilegeCommands,
+    },
+
+    /// 执行命令
+    Execute {
+        /// 要执行的命令
+        #[arg(short, long)]
+        command: String,
     },
 }
 
@@ -169,18 +211,178 @@ enum GenerateCommands {
 enum BeaconCommands {
     /// 列出所有信标
     List,
-    
+
     /// 设置签到间隔
     Interval {
         /// 间隔时间（秒）
         seconds: u32,
     },
-    
+
     /// 设置抖动百分比
     Jitter {
         /// 抖动百分比 (0-100)
         percent: u32,
     },
+}
+
+/// 文件操作命令
+#[derive(Subcommand, Debug)]
+enum FileCommands {
+    /// 上传文件
+    Upload {
+        /// 本地文件路径
+        #[arg(short, long)]
+        local: String,
+
+        /// 远程文件路径
+        #[arg(short, long)]
+        remote: String,
+    },
+
+    /// 下载文件
+    Download {
+        /// 远程文件路径
+        #[arg(short, long)]
+        remote: String,
+
+        /// 本地文件路径
+        #[arg(short, long)]
+        local: String,
+    },
+
+    /// 列出文件
+    List {
+        /// 目录路径
+        #[arg(short, long)]
+        path: Option<String>,
+    },
+
+    /// 删除文件
+    Delete {
+        /// 文件路径
+        #[arg(short, long)]
+        path: String,
+
+        /// 确认删除
+        #[arg(short, long)]
+        confirm: bool,
+    },
+}
+
+/// 进程管理命令
+#[derive(Subcommand, Debug)]
+enum ProcessCommands {
+    /// 列出进程
+    List,
+
+    /// 终止进程
+    Kill {
+        /// 进程ID
+        #[arg(short, long)]
+        pid: u32,
+
+        /// 确认终止
+        #[arg(short, long)]
+        confirm: bool,
+    },
+
+    /// 进程迁移
+    Migrate {
+        /// 目标进程ID
+        #[arg(short, long)]
+        target_pid: u32,
+    },
+
+    /// 进程注入
+    Inject {
+        /// 载荷路径
+        #[arg(short, long)]
+        payload: String,
+    },
+}
+
+/// 网络操作命令
+#[derive(Subcommand, Debug)]
+enum NetworkCommands {
+    /// 端口扫描
+    Scan {
+        /// 目标主机
+        #[arg(short, long)]
+        target: String,
+
+        /// 端口列表
+        #[arg(short, long)]
+        ports: String,
+    },
+
+    /// 设置 SOCKS 代理
+    Socks {
+        /// 本地端口
+        #[arg(short, long)]
+        local_port: u16,
+
+        /// 远程主机
+        #[arg(short, long)]
+        remote_host: String,
+
+        /// 远程端口
+        #[arg(short, long)]
+        remote_port: u16,
+    },
+
+    /// 反向端口转发
+    Rportfwd {
+        /// 本地端口
+        #[arg(short, long)]
+        local_port: u16,
+
+        /// 远程端口
+        #[arg(short, long)]
+        remote_port: u16,
+    },
+
+    /// TCP 枢纽
+    Tcppivot {
+        /// 本地端口
+        #[arg(short, long)]
+        local_port: u16,
+
+        /// 远程主机
+        #[arg(short, long)]
+        remote_host: String,
+
+        /// 远程端口
+        #[arg(short, long)]
+        remote_port: u16,
+    },
+}
+
+/// 权限管理命令
+#[derive(Subcommand, Debug)]
+enum PrivilegeCommands {
+    /// 模拟用户
+    Impersonate {
+        /// 用户名
+        #[arg(short, long)]
+        username: String,
+    },
+
+    /// 获取 SYSTEM 权限
+    Getsystem,
+
+    /// 创建令牌
+    MakeToken {
+        /// 用户名
+        #[arg(short, long)]
+        username: String,
+
+        /// 密码
+        #[arg(short, long)]
+        password: String,
+    },
+
+    /// 恢复原始令牌
+    Rev2self,
 }
 
 /// 客户端主结构
@@ -267,11 +469,11 @@ async fn main() -> Result<()> {
 
     // 设置语言
     let locale = match args.language.as_str() {
-        "zh-CN" => Locale::zh_CN,
-        "en" => Locale::en,
-        _ => Locale::zh_CN,
+        "zh-CN" => "zh-CN",
+        "en" => "en",
+        _ => "zh-CN",
     };
-    rust_i18n::set_locale(&locale);
+    rust_i18n::set_locale(locale);
 
     // 初始化日志
     let log_level = match args.log_level.as_str() {
@@ -386,17 +588,122 @@ async fn main() -> Result<()> {
                     println!("{}", t!("beacon.list_header"));
                     println!("{}", t!("beacon.no_beacons"));
                 }
-                
+
                 BeaconCommands::Interval { seconds } => {
                     println!("{} {} {}", t!("beacon.set_interval"), t!("command.name"), seconds);
                 }
-                
+
                 BeaconCommands::Jitter { percent } => {
                     println!("{} {} {}%", t!("beacon.set_jitter"), t!("command.name"), percent);
                 }
             }
         }
-        
+
+        Some(Commands::File { file_command }) => {
+            match file_command {
+                FileCommands::Upload { local, remote } => {
+                    let result = filesystem::upload_file(&local, &remote).await?;
+                    println!("{}", result.stdout);
+                }
+
+                FileCommands::Download { remote, local } => {
+                    let result = filesystem::download_file(&remote, &local).await?;
+                    println!("{}", result.stdout);
+                }
+
+                FileCommands::List { path } => {
+                    let path = path.unwrap_or(".".to_string());
+                    let result = filesystem::list_files(&path).await?;
+                    println!("{}", result.stdout);
+                }
+
+                FileCommands::Delete { path, confirm } => {
+                    let result = filesystem::delete_file(&path, confirm).await?;
+                    println!("{}", result.stdout);
+                }
+            }
+        }
+
+        Some(Commands::Process { process_command }) => {
+            match process_command {
+                ProcessCommands::List => {
+                    let result = process::list_processes().await?;
+                    println!("{}", result.stdout);
+                }
+
+                ProcessCommands::Kill { pid, confirm } => {
+                    let result = process::kill_process(pid, confirm).await?;
+                    println!("{}", result.stdout);
+                }
+
+                ProcessCommands::Migrate { target_pid } => {
+                    let result = process::migrate_process(0, target_pid).await?;
+                    println!("{}", result.stdout);
+                }
+
+                ProcessCommands::Inject { payload } => {
+                    let result = process::inject_process(0, &payload).await?;
+                    println!("{}", result.stdout);
+                }
+            }
+        }
+
+        Some(Commands::Network { network_command }) => {
+            match network_command {
+                NetworkCommands::Scan { target, ports } => {
+                    let port_list: Vec<u16> = ports.split(',')
+                        .filter_map(|p| p.trim().parse().ok())
+                        .collect();
+                    let result = network::port_scan(&target, port_list).await?;
+                    println!("{}", result.stdout);
+                }
+
+                NetworkCommands::Socks { local_port, remote_host, remote_port } => {
+                    let result = network::setup_socks_proxy(local_port, &remote_host, remote_port).await?;
+                    println!("{}", result.stdout);
+                }
+
+                NetworkCommands::Rportfwd { local_port, remote_port } => {
+                    let result = network::setup_reverse_port_forward(local_port, remote_port).await?;
+                    println!("{}", result.stdout);
+                }
+
+                NetworkCommands::Tcppivot { local_port, remote_host, remote_port } => {
+                    let result = network::setup_tcp_pivot(local_port, &remote_host, remote_port).await?;
+                    println!("{}", result.stdout);
+                }
+            }
+        }
+
+        Some(Commands::Privilege { privilege_command }) => {
+            match privilege_command {
+                PrivilegeCommands::Impersonate { username } => {
+                    let result = privilege::impersonate_user(&username).await?;
+                    println!("{}", result.stdout);
+                }
+
+                PrivilegeCommands::Getsystem => {
+                    let result = privilege::get_system().await?;
+                    println!("{}", result.stdout);
+                }
+
+                PrivilegeCommands::MakeToken { username, password } => {
+                    let result = privilege::make_token(&username, &password).await?;
+                    println!("{}", result.stdout);
+                }
+
+                PrivilegeCommands::Rev2self => {
+                    let result = privilege::rev2self().await?;
+                    println!("{}", result.stdout);
+                }
+            }
+        }
+
+        Some(Commands::Execute { command }) => {
+            let result = interactive::execute_command(&command).await?;
+            println!("{}", result.stdout);
+        }
+
         None => {
             // 没有子命令时，进入交互模式
             println!("{}", t!("help.usage"));
