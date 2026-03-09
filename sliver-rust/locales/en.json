@@ -1,0 +1,191 @@
+{
+  "common": {
+    "welcome": "Welcome to Sliver Cross-Platform Remote Administration Tool",
+    "version": "Version: {version}",
+    "loading": "Loading...",
+    "success": "Success",
+    "failed": "Failed",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "client": {
+    "name": "Sliver Client",
+    "description": "Connect to and manage Sliver servers",
+    "connecting": "Connecting to server...",
+    "connected": "Connected to server",
+    "disconnected": "Disconnected from server",
+    "connection_failed": "Connection failed: {reason}"
+  },
+  "server": {
+    "name": "Sliver Server",
+    "description": "Sliver server daemon",
+    "starting": "Server starting...",
+    "started": "Server started",
+    "stopping": "Server stopping...",
+    "stopped": "Server stopped",
+    "listening_on": "Listening on: {address}:{port}",
+    "not_listening": "Not listening on any address"
+  },
+  "session": {
+    "name": "Session",
+    "description": "Manage established session connections",
+    "active_sessions": "Active sessions: {count}",
+    "no_sessions": "No active sessions",
+    "list_header": "Session List",
+    "session_info": "Session Info",
+    "connect": "Connect session",
+    "disconnect": "Disconnect session",
+    "kill": "Kill session",
+    "kill_confirm": "Confirm kill session {name}?",
+    "killed": "Session {name} killed",
+    "select": "Select session",
+    "selected": "Selected session: {name}"
+  },
+  "listener": {
+    "name": "Listener",
+    "description": "Manage and create listeners",
+    "active_listeners": "Active listeners: {count}",
+    "no_listeners": "No active listeners",
+    "list_header": "Listener List",
+    "create": "Create listener",
+    "remove": "Remove listener",
+    "remove_confirm": "Confirm remove listener {name}?",
+    "removed": "Listener {name} removed",
+    "types": {
+      "mtls": "mTLS Listener",
+      "http": "HTTP Listener",
+      "https": "HTTPS Listener",
+      "dns": "DNS Listener",
+      "wireguard": "WireGuard Listener"
+    }
+  },
+  "payload": {
+    "name": "Payload",
+    "description": "Generate and configure payloads",
+    "generate": "Generate payload",
+    "list_header": "Payload List",
+    "no_payloads": "No available payloads",
+    "generating": "Generating payload...",
+    "generated": "Payload generation complete",
+    "generation_failed": "Payload generation failed: {reason}",
+    "types": {
+      "dll": "DLL Payload",
+      "exe": "EXE Payload",
+      "shellcode": "Shellcode Payload",
+      "raw": "Raw Payload",
+      "service": "Service Payload"
+    }
+  },
+  "beacon": {
+    "name": "Beacon",
+    "description": "Manage beacon connections",
+    "active_beacons": "Active beacons: {count}",
+    "no_beacons": "No active beacons",
+    "list_header": "Beacon List",
+    "check_in": "Check in",
+    "set_interval": "Set interval",
+    "set_jitter": "Set jitter"
+  },
+  "command": {
+    "name": "Command",
+    "description": "Execute commands",
+    "executing": "Executing command...",
+    "executed": "Command execution complete",
+    "execution_failed": "Command execution failed: {reason}",
+    "output": "Output:",
+    "exit_code": "Exit code: {code}"
+  },
+  "file": {
+    "name": "File",
+    "description": "File transfer and management",
+    "upload": "Upload file",
+    "uploading": "Uploading file...",
+    "uploaded": "File upload complete",
+    "download": "Download file",
+    "downloading": "Downloading file...",
+    "downloaded": "File download complete",
+    "browse": "Browse files",
+    "list": "List files",
+    "delete": "Delete file",
+    "delete_confirm": "Confirm delete file {path}?",
+    "deleted": "File {path} deleted"
+  },
+  "process": {
+    "name": "Process",
+    "description": "Process management",
+    "list": "List processes",
+    "kill": "Kill process",
+    "kill_confirm": "Confirm kill process {pid}?",
+    "killed": "Process {pid} killed",
+    "migrate": "Migrate process",
+    "inject": "Inject process"
+  },
+  "network": {
+    "name": "Network",
+    "description": "Network operations",
+    "scan": "Port scan",
+    "scanning": "Scanning...",
+    "scan_complete": "Scan complete",
+    "socks_proxy": "SOCKS proxy",
+    "reverse_port_forward": "Reverse port forward",
+    "tcp_pivot": "TCP pivot"
+  },
+  "privilege": {
+    "name": "Privilege",
+    "description": "Privilege escalation and management",
+    "impersonate": "Impersonate user",
+    "get_system": "Get SYSTEM",
+    "make_token": "Make token",
+    "rev2self": "Revert to self"
+  },
+  "plugin": {
+    "name": "Plugin",
+    "description": "Plugin management",
+    "list": "List plugins",
+    "load": "Load plugin",
+    "unload": "Unload plugin",
+    "no_plugins": "No loaded plugins"
+  },
+  "settings": {
+    "name": "Settings",
+    "description": "Client settings",
+    "language": "Language",
+    "language_changed": "Language changed to: {lang}",
+    "theme": "Theme",
+    "log_level": "Log level",
+    "server": "Server settings"
+  },
+  "help": {
+    "name": "Help",
+    "description": "Display help information",
+    "usage": "Usage",
+    "commands": "Commands",
+    "options": "Options",
+    "description": "Description"
+  },
+  "error": {
+    "network_error": "Network error: {message}",
+    "auth_error": "Authentication error: {message}",
+    "permission_denied": "Permission denied",
+    "file_not_found": "File not found: {path}",
+    "invalid_parameter": "Invalid parameter: {parameter}",
+    "operation_timeout": "Operation timeout",
+    "unknown_error": "Unknown error"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "connecting": "Connecting",
+    "disconnected": "Disconnected",
+    "running": "Running",
+    "stopped": "Stopped",
+    "pending": "Pending",
+    "completed": "Completed",
+    "failed": "Failed"
+  }
+}

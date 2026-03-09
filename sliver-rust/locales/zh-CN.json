@@ -1,0 +1,191 @@
+{
+  "common": {
+    "welcome": "欢迎使用 Sliver 跨平台远程管理工具",
+    "version": "版本: {version}",
+    "loading": "加载中...",
+    "success": "成功",
+    "failed": "失败",
+    "error": "错误",
+    "warning": "警告",
+    "info": "信息",
+    "confirm": "确认",
+    "cancel": "取消",
+    "yes": "是",
+    "no": "否"
+  },
+  "client": {
+    "name": "Sliver 客户端",
+    "description": "用于连接和管理 Sliver 服务器",
+    "connecting": "正在连接到服务器...",
+    "connected": "已连接到服务器",
+    "disconnected": "已断开服务器连接",
+    "connection_failed": "连接失败: {reason}"
+  },
+  "server": {
+    "name": "Sliver 服务端",
+    "description": "Sliver 服务端守护进程",
+    "starting": "服务端启动中...",
+    "started": "服务端已启动",
+    "stopping": "服务端停止中...",
+    "stopped": "服务端已停止",
+    "listening_on": "监听地址: {address}:{port}",
+    "not_listening": "未监听任何地址"
+  },
+  "session": {
+    "name": "会话",
+    "description": "管理已建立的会话连接",
+    "active_sessions": "活跃会话: {count}",
+    "no_sessions": "没有活跃的会话",
+    "list_header": "会话列表",
+    "session_info": "会话信息",
+    "connect": "连接会话",
+    "disconnect": "断开会话",
+    "kill": "终止会话",
+    "kill_confirm": "确认终止会话 {name}?",
+    "killed": "会话 {name} 已终止",
+    "select": "选择会话",
+    "selected": "已选择会话: {name}"
+  },
+  "listener": {
+    "name": "监听器",
+    "description": "管理和创建新的监听器",
+    "active_listeners": "活跃监听器: {count}",
+    "no_listeners": "没有活跃的监听器",
+    "list_header": "监听器列表",
+    "create": "创建监听器",
+    "remove": "删除监听器",
+    "remove_confirm": "确认删除监听器 {name}?",
+    "removed": "监听器 {name} 已删除",
+    "types": {
+      "mtls": "mTLS 监听器",
+      "http": "HTTP 监听器",
+      "https": "HTTPS 监听器",
+      "dns": "DNS 监听器",
+      "wireguard": "WireGuard 监听器"
+    }
+  },
+  "payload": {
+    "name": "载荷",
+    "description": "生成和配置载荷",
+    "generate": "生成载荷",
+    "list_header": "载荷列表",
+    "no_payloads": "没有可用的载荷",
+    "generating": "正在生成载荷...",
+    "generated": "载荷生成完成",
+    "generation_failed": "载荷生成失败: {reason}",
+    "types": {
+      "dll": "DLL 载荷",
+      "exe": "EXE 载荷",
+      "shellcode": "Shellcode 载荷",
+      "raw": "原始载荷",
+      "service": "服务载荷"
+    }
+  },
+  "beacon": {
+    "name": "信标",
+    "description": "管理信标连接",
+    "active_beacons": "活跃信标: {count}",
+    "no_beacons": "没有活跃的信标",
+    "list_header": "信标列表",
+    "check_in": "签到",
+    "set_interval": "设置间隔",
+    "set_jitter": "设置抖动"
+  },
+  "command": {
+    "name": "命令",
+    "description": "执行命令",
+    "executing": "正在执行命令...",
+    "executed": "命令执行完成",
+    "execution_failed": "命令执行失败: {reason}",
+    "output": "输出:",
+    "exit_code": "退出码: {code}"
+  },
+  "file": {
+    "name": "文件",
+    "description": "文件传输和管理",
+    "upload": "上传文件",
+    "uploading": "正在上传文件...",
+    "uploaded": "文件上传完成",
+    "download": "下载文件",
+    "downloading": "正在下载文件...",
+    "downloaded": "文件下载完成",
+    "browse": "浏览文件",
+    "list": "列出文件",
+    "delete": "删除文件",
+    "delete_confirm": "确认删除文件 {path}?",
+    "deleted": "文件 {path} 已删除"
+  },
+  "process": {
+    "name": "进程",
+    "description": "进程管理",
+    "list": "列出进程",
+    "kill": "终止进程",
+    "kill_confirm": "确认终止进程 {pid}?",
+    "killed": "进程 {pid} 已终止",
+    "migrate": "迁移进程",
+    "inject": "注入进程"
+  },
+  "network": {
+    "name": "网络",
+    "description": "网络操作",
+    "scan": "端口扫描",
+    "scanning": "正在扫描...",
+    "scan_complete": "扫描完成",
+    "socks_proxy": "SOCKS 代理",
+    "reverse_port_forward": "反向端口转发",
+    "tcp_pivot": "TCP 枢纽"
+  },
+  "privilege": {
+    "name": "权限",
+    "description": "权限提升和管理",
+    "impersonate": "模拟用户",
+    "get_system": "获取 SYSTEM 权限",
+    "make_token": "创建令牌",
+    "rev2self": "恢复原始令牌"
+  },
+  "plugin": {
+    "name": "插件",
+    "description": "插件管理",
+    "list": "列出插件",
+    "load": "加载插件",
+    "unload": "卸载插件",
+    "no_plugins": "没有已加载的插件"
+  },
+  "settings": {
+    "name": "设置",
+    "description": "客户端设置",
+    "language": "语言",
+    "language_changed": "语言已更改为: {lang}",
+    "theme": "主题",
+    "log_level": "日志级别",
+    "server": "服务器设置"
+  },
+  "help": {
+    "name": "帮助",
+    "description": "显示帮助信息",
+    "usage": "用法",
+    "commands": "命令",
+    "options": "选项",
+    "description": "描述"
+  },
+  "error": {
+    "network_error": "网络错误: {message}",
+    "auth_error": "认证错误: {message}",
+    "permission_denied": "权限被拒绝",
+    "file_not_found": "文件未找到: {path}",
+    "invalid_parameter": "无效参数: {parameter}",
+    "operation_timeout": "操作超时",
+    "unknown_error": "未知错误"
+  },
+  "status": {
+    "active": "活跃",
+    "inactive": "非活跃",
+    "connecting": "连接中",
+    "disconnected": "已断开",
+    "running": "运行中",
+    "stopped": "已停止",
+    "pending": "等待中",
+    "completed": "已完成",
+    "failed": "失败"
+  }
+}

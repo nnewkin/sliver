@@ -1,0 +1,64 @@
+[package]
+name = "sliver"
+version = "0.1.0"
+edition = "2021"
+description = "Sliver - 跨平台远程管理工具 (Rust重构版本)"
+license = "GPL-3.0"
+repository = "https://github.com/nnewkin/sliver-rust"
+readme = "README.md"
+rust-version = "1.75.0"
+
+[[bin]]
+name = "sliver-client"
+path = "client/src/main.rs"
+
+[[bin]]
+name = "sliver-server"
+path = "server/src/main.rs"
+
+[workspace]
+members = [
+    "client",
+    "server",
+    "shared",
+]
+
+[workspace.dependencies]
+# 多语言支持
+rust-i18n = "2.3"
+
+# 异步运行时
+tokio = { version = "1.35", features = ["full"] }
+tokio-util = "0.7"
+
+# 命令行工具
+clap = { version = "4.4", features = ["derive"] }
+crossterm = "0.27"
+
+# 日志
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# 网络通信
+tonic = "0.10"
+prost = "0.12"
+
+# 序列化
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# 加密
+aes-gcm = "0.10"
+x25519-dalek = "2.0"
+rand = "0.8"
+
+# 文件系统
+dirs = "5.0"
+
+# 错误处理
+anyhow = "1.0"
+thiserror = "1.0"
+
+# 测试
+rstest = "0.18"
+mockall = "0.12"

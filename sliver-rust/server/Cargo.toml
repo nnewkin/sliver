@@ -1,0 +1,28 @@
+[package]
+name = "sliver-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rust-i18n.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+clap.workspace = true
+crossterm.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tonic.workspace = true
+prost.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+aes-gcm.workspace = true
+x25519-dalek.workspace = true
+rand.workspace = true
+dirs.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+
+sliver-shared = { path = "../shared" }
+
+[build-dependencies]
+tonic-build = "0.10"
