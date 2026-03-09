@@ -55,3 +55,7 @@ dist/
 
 # Flag to show that go-assets.sh has been run
 .downloaded_assets
+
+# Rust 编译产物
+sliver-rust/target/
+Cargo.lock
