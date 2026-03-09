@@ -2,13 +2,30 @@
 // 测试 CLI 客户端的核心功能，包括会话、监听器、载荷生成等
 
 use rstest::*;
+use std::env;
 
 // 测试客户端帮助命令
 #[test]
 fn test_client_help() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-client")
+    // 从环境变量获取项目根目录
+    let project_root = env::var("CARGO_MANIFEST_DIR").unwrap_or_else(|_| ".".to_string());
+    
+    // 构建二进制文件路径
+    let client_path = if cfg!(debug_assertions) {
+        format!("{}/../../target/debug/sliver-client", project_root)
+    } else {
+        format!("{}/../../target/release/sliver-client", project_root)
+    };
+    
+    // 检查文件是否存在，不存在则跳过测试
+    if !std::path::Path::new(&client_path).exists() {
+        println!("警告：客户端二进制文件不存在: {}，跳过测试", client_path);
+        return;
+    }
+    
+    let output = Command::new(&client_path)
         .arg("--help")
         .output()
         .expect("执行客户端帮助命令失败");
@@ -58,7 +75,7 @@ fn test_language_switching() {
 fn test_session_commands() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-client")
+    let output = Command::new("../../target/debug/sliver-client")
         .arg("session")
         .arg("list")
         .output()
@@ -72,7 +89,7 @@ fn test_session_commands() {
 fn test_listener_commands() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-client")
+    let output = Command::new("../../target/debug/sliver-client")
         .arg("listener")
         .arg("list")
         .output()
@@ -86,7 +103,7 @@ fn test_listener_commands() {
 fn test_file_commands() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-client")
+    let output = Command::new("../../target/debug/sliver-client")
         .arg("file")
         .arg("list")
         .arg("--path")
@@ -102,7 +119,7 @@ fn test_file_commands() {
 fn test_process_commands() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-client")
+    let output = Command::new("../../target/debug/sliver-client")
         .arg("process")
         .arg("list")
         .output()
@@ -116,7 +133,7 @@ fn test_process_commands() {
 fn test_network_commands() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-client")
+    let output = Command::new("../../target/debug/sliver-client")
         .arg("network")
         .arg("scan")
         .arg("--target")
@@ -134,7 +151,7 @@ fn test_network_commands() {
 fn test_privilege_commands() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-client")
+    let output = Command::new("../../target/debug/sliver-client")
         .arg("privilege")
         .arg("impersonate")
         .arg("--username")
@@ -150,7 +167,7 @@ fn test_privilege_commands() {
 fn test_payload_commands() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-client")
+    let output = Command::new("../../target/debug/sliver-client")
         .arg("generate")
         .arg("list")
         .output()

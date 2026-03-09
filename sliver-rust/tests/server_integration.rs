@@ -8,7 +8,7 @@ use rstest::*;
 fn test_server_help() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-server")
+    let output = Command::new("../../target/debug/sliver-server")
         .arg("--help")
         .output()
         .expect("执行服务端帮助命令失败");
@@ -46,7 +46,7 @@ fn test_server_start() {
 fn test_server_status() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-server")
+    let output = Command::new("../../target/debug/sliver-server")
         .arg("status")
         .output()
         .expect("执行服务端状态查询失败");
@@ -65,7 +65,7 @@ fn test_server_status() {
 fn test_listener_create() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-server")
+    let output = Command::new("../../target/debug/sliver-server")
         .arg("listener")
         .arg("create")
         .arg("--listener-type")
@@ -85,7 +85,7 @@ fn test_listener_create() {
 fn test_listener_list() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-server")
+    let output = Command::new("../../target/debug/sliver-server")
         .arg("listener")
         .arg("list")
         .output()
@@ -99,7 +99,7 @@ fn test_listener_list() {
 fn test_payload_generate() {
     use std::process::Command;
     
-    let output = Command::new("./target/debug/sliver-server")
+    let output = Command::new("../../target/debug/sliver-server")
         .arg("generate")
         .arg("--payload-type")
         .arg("exe")
