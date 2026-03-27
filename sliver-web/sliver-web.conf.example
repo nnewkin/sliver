@@ -1,0 +1,34 @@
+# Sliver Web UI Configuration
+# Copy this file to config.yaml and customize values
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  mode: "release"
+  jwt_secret: "CHANGE_ME_IN_PRODUCTION"
+  jwt_expiry_hours: 24
+
+sliver:
+  grpc_addr: "localhost:50050"
+  certs_dir: "./certs"
+
+database:
+  path: "./data/sliver-web.db"
+
+telegram:
+  enabled: false
+  bot_token: ""
+  mode: "polling"
+  webhook_url: ""
+  polling_interval: 1
+
+logging:
+  level: "info"
+  format: "json"
+  output: "stdout"
+
+security:
+  totp_enabled: true
+  session_timeout_minutes: 30
+  max_login_attempts: 5
+  lockout_duration_minutes: 15

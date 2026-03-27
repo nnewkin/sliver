@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  sliver-server:
+    image: bishopfox/sliver-server:stable
+    container_name: sliver-server
+    ports:
+      - "50050:50050"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - sliver-data:/root/.sliver
+    restart: unless-stopped
+    networks:
+      - sliver-web-network
+
+  sliver-web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: sliver-web
+    ports:
+      - "8080:8080"
+    environment:
+      - SLIVER_GRPC_ADDR=sliver-server:50050
+      - SLIVER_CERTS_DIR=/certs
+      - DB_PATH=/data/sliver-web.db
+      - JWT_SECRET=${JWT_SECRET:-CHANGE_ME_IN_PRODUCTION}
+      - LOG_LEVEL=info
+    volumes:
+      - sliver-data/certs:/certs:ro
+      - sliver-web-data:/data
+    depends_on:
+      - sliver-server
+    restart: unless-stopped
+    networks:
+      - sliver-web-network
+
+networks:
+  sliver-web-network:
+    driver: bridge
+
+volumes:
+  sliver-data:
+  sliver-web-data:

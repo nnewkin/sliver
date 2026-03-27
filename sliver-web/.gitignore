@@ -1,0 +1,42 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+sliver-web
+
+# Test binary
+*.test
+
+# Output of go coverage
+*.out
+
+# Dependency directories
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build output
+dist/
+build/
+
+# Data
+data/
+*.db
+
+# Certs (sensitive)
+certs/*.pem
+certs/*.key
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
